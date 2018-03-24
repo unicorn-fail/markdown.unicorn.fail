@@ -1,0 +1,32 @@
+favicon:
+  mimetype: image/vnd.microsoft.icon
+  path: ''
+  url: 'http://markdown.localdev/themes/custom/markdown_bootstrap/favicon.ico'
+  use_default: true
+schemas:
+  bootstrap: 8000
+  markdown_bootstrap: 8000
+navbar_position: static-top
+region_wells:
+  navigation: ''
+  navigation_collapsible: ''
+  header: ''
+  highlighted: ''
+  help: ''
+  content: ''
+  sidebar_first: ''
+  sidebar_second: ''
+  footer: ''
+fluid_container: 1
+table_responsive: '-1'
+table: ''
+cdn_provider: ''
+features:
+  comment_user_picture: true
+  comment_user_verification: true
+  favicon: true
+  node_user_picture: true
+logo:
+  path: ''
+  url: ''
+  use_default: true

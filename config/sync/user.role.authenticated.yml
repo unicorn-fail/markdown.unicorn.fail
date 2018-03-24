@@ -1,0 +1,23 @@
+uuid: 6a309369-52bb-453d-943e-cc36992bcde6
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: dJ0L2DNSj5q6XVZAGsuVDpJTh5UeYkIPwKrUOOpr8YI
+id: authenticated
+label: 'Authenticated user'
+weight: 1
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access shortcuts'
+  - 'access site-wide contact form'
+  - 'post comments'
+  - 'search content'
+  - 'skip comment approval'
+  - 'use text format basic_html'
+  - 'use text format commonmark'
+  - 'use text format parsedown'
+  - 'use text format parsedown_extra'
+  - 'use text format php_markdown'

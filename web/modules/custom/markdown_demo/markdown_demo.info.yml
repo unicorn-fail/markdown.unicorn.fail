@@ -1,0 +1,6 @@
+name: 'Markdown Demo'
+type: module
+description: 'Demonstration module'
+package: 'Input filters'
+core: 8.x
+php: 5.6.5

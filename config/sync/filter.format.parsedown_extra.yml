@@ -1,0 +1,17 @@
+uuid: b318b9fa-5139-4998-b9f4-66b51b117898
+langcode: en
+status: false
+dependencies:
+  module:
+    - markdown
+name: 'Parsedown (Extra)'
+format: parsedown_extra
+weight: 0
+filters:
+  markdown:
+    id: markdown
+    provider: markdown
+    status: true
+    weight: 0
+    settings:
+      parser: parsedown

@@ -1,0 +1,22 @@
+uuid: d32bc08b-98cc-44db-b89e-5941246d7bfc
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - markdown_bootstrap
+_core:
+  default_config_hash: 9EoWV2Lot6FVSr50t4hoKgiz1LIXYWNG-IIPYsWxBqo
+id: markdown_bootstrap_content
+theme: markdown_bootstrap
+region: content
+weight: -2
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility: {  }

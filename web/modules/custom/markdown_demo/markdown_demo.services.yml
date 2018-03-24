@@ -1,0 +1,11 @@
+services:
+  cache.markdown:
+    class: Drupal\Core\Cache\CacheBackendInterface
+    tags:
+      - { name: cache.bin, default_backend: cache.backend.chainedfast }
+    factory: cache_factory:get
+    arguments: [markdown]
+
+  markdown.demo:
+    class: Drupal\markdown_demo\MarkdownDemo
+    arguments: ['@cache.markdown', '@request_stack']

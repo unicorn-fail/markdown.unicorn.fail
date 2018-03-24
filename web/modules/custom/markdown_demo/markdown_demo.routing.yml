@@ -1,0 +1,15 @@
+markdown.demo:
+  path: '/demo'
+  defaults:
+    _form: '\Drupal\markdown_demo\Form\MarkdownDemoForm'
+    _title: 'Markdown for Drupal'
+  requirements:
+    _access: 'TRUE'
+
+markdown.benchmarks:
+  path: '/benchmarks'
+  defaults:
+    _controller: '\Drupal\markdown_demo\Controllers\MarkdownDemoBenchmarks::benchmarks'
+    _title: 'Markdown for Drupal Benchmarks'
+  requirements:
+    _access: 'TRUE'

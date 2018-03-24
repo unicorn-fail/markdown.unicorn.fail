@@ -1,0 +1,306 @@
+// @todo these should be their own CSS files and only included when
+// specific Drupal libraries are used.
+//@import "component/alert";
+//@import "component/ajax";
+//@import "component/field";
+//@import "component/file";
+//@import "component/filter";
+//@import "component/form";
+//@import "component/icon";
+//@import "component/navbar";
+//@import "component/node";
+//@import "component/panel";
+//@import "component/progress-bar";
+//@import "component/table-drag";
+//@import "component/tabs";
+//@import "component/toolbar";
+
+// jQuery UI style overrides.
+//@import "jquery-ui/autocomplete";
+
+ol, ul {
+  padding-left: 1.5em;
+  .popover &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+code, kbd {
+  border-radius: 3px;
+}
+
+pre {
+  background: $body-bg;
+  border: 0;
+  color: #c5c8c6;
+  padding: 1em;
+  code {
+    border-radius: 0;
+  }
+}
+
+.alert {
+  position: relative;
+  z-index: $zindex-modal;
+}
+
+.form-group {
+  margin-bottom: 0;
+}
+
+.logo {
+  img {
+    height: 25px;
+    margin: 5px 0 0 15px;
+  }
+}
+
+@media (min-width: $screen-sm-min) {
+  .logo img {
+    margin: 5px 10px 0 0;
+  }
+}
+
+.navbar {
+  border: 0;
+}
+
+.navbar-brand .d8 {
+  margin-left: 5px;
+  margin-top: -10px;
+  vertical-align: text-top;
+}
+
+.navbar-default .navbar-nav > li > a {
+  background: darken($brand-primary, 10%);
+  min-width: 89px;
+  text-align: center;
+}
+
+.nav > li > a {
+  background-color: darken($brand-primary, 15%);
+  color: #fff;
+  margin-right: 1px;
+  &:focus,
+  &:hover {
+    background-color: darken($brand-primary, 10%);
+    color: #fff;
+  }
+  small {
+    opacity: .5;
+  }
+}
+
+// Page header.
+.page-header {
+  border: 0;
+  margin-top: 0;
+}
+
+// Paragraphs.
+p:last-child,
+.form-group:last-child,
+.panel:last-child {
+  margin-bottom: 0;
+}
+
+a[target="_blank"]:after {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\e164";
+  color: #fff;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-size: 75%;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  margin-left: .5em;
+  margin-right: .25em;
+  opacity: .5;
+  position: relative;
+  top: 1px;
+  .markdown-rendered & {
+    color: $body-bg;
+  }
+}
+
+ul, ol {
+  padding-left: 2em;
+  word-break: break-word;
+}
+
+.markdown-input {
+  background: $gray-dark;
+  margin: -20px (-($grid-gutter-width / 2)) $grid-gutter-width;
+
+  .form-type-textarea, .form-textarea-wrapper, textarea {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    &:focus {
+      border: 0;
+      box-shadow: none;
+      outline: 0;
+    }
+  }
+
+  textarea {
+    font-family: $font-family-monospace;
+    min-height: 200px;
+    padding: 1em;
+    resize: none;
+  }
+
+  .btn {
+    margin-top: ($grid-gutter-width / 2);
+    text-align: right;
+    small {
+      opacity: .5;
+    }
+  }
+}
+
+.markdown-parsers {
+  > h3 {
+    color: #fff;
+    font-weight: 100;
+    line-height: 1.75em;
+  }
+  .nav-tabs {
+    margin-bottom: ($grid-gutter-width / 2);
+
+    > li, > li > a {
+      width: 100%;
+    }
+  }
+}
+
+.markdown-rendered {
+  background: #fff;
+  color: #222;
+  padding: $grid-gutter-width ($grid-gutter-width * 2);
+}
+
+.markdown-expires {
+  align-items: center;
+  color: #fff;
+  display: inline-flex;
+  float: left;
+  font-size: 75%;
+  margin-top: 5px;
+
+  label {
+    margin-bottom: 0;
+    margin-right: .5em;
+    font-weight: inherit;
+  }
+
+  time {
+    opacity: .5;
+  }
+}
+
+.markdown-size {
+  background: $body-bg;
+  border-radius: 7px;
+  bottom: 60px;
+  font-family: $font-family-monospace;
+  font-size: $font-size-small;
+  line-height: 1;
+  padding: 5px 10px;
+  position: absolute;
+  right: 10px;
+}
+
+@media (min-width: $grid-float-breakpoint) {
+  .container > .navbar-header,
+  .container-fluid > .navbar-header {
+    margin-left: -($grid-gutter-width / 2);
+    padding-left: ($grid-gutter-width / 2);
+    width: 25vw;
+  }
+
+  .markdown-wrapper {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+  }
+
+  .markdown-input {
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding-bottom: 50px;
+    position: absolute;
+    top: 0;
+    width: 25vw;
+
+    .btn {
+      bottom: 0;
+      position: absolute;
+      margin-top: 0;
+      left: 0;
+      right: 0;
+    }
+
+  }
+
+  .markdown-parsers {
+    bottom: 0;
+    left: 25vw;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+
+    > h3 {
+      margin: 0 ($grid-gutter-width  / 2) 0;
+      display: inline-block;
+    }
+
+    .nav-tabs {
+      background: #333;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      > li, > li > a {
+        width: auto;
+      }
+    }
+
+    .markdown-panes {
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 42px;
+
+      .tab-pane {
+        height: 100%;
+      }
+    }
+  }
+
+  .markdown-panes .tab-pane.active {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .markdown-html,
+  .markdown-rendered {
+    height: 100%;
+    overflow-y: scroll;
+    padding-bottom: 100px;
+    width: 50%;
+  }
+
+}

@@ -1,0 +1,20 @@
+uuid: 772cfac4-aedd-4bdc-9dca-1cdb1ef3e627
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
+id: anonymous
+label: 'Anonymous user'
+weight: 0
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'search content'
+  - 'use text format commonmark'
+  - 'use text format parsedown'
+  - 'use text format parsedown_extra'
+  - 'use text format php_markdown'
+  - 'use text format restricted_html'

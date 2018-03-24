@@ -1,0 +1,26 @@
+uuid: 5837546c-73e7-44e3-ba87-4c2ac65403b5
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - markdown_bootstrap
+_core:
+  default_config_hash: rx9IrdDv7Ldc4kpalZAxdhIPZfYIeOMh1N-qKoQZwHo
+id: markdown_bootstrap_main_menu
+theme: markdown_bootstrap
+region: navigation_collapsible
+weight: -3
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 0
+visibility: {  }

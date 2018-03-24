@@ -1,0 +1,22 @@
+uuid: cdc6b84b-c5f2-414d-90bd-42dca9014b9d
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - markdown_bootstrap
+_core:
+  default_config_hash: oXUb3JZR2WW5VOdw4HrhRicCsq51mCgLfRyvheG68ck
+id: markdown_bootstrap_breadcrumbs
+theme: markdown_bootstrap
+region: header
+weight: -5
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  provider: system
+  label_display: '0'
+visibility: {  }

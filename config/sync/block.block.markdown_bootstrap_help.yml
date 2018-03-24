@@ -1,0 +1,22 @@
+uuid: ac0e5e4a-fe5a-422b-ae41-dd96677d54a4
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - markdown_bootstrap
+_core:
+  default_config_hash: 8I8iACSa0sKO3k3jlvUG1ge52rfcKX7USJAQYnzuBgg
+id: markdown_bootstrap_help
+theme: markdown_bootstrap
+region: help
+weight: -5
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  provider: help
+  label_display: '0'
+visibility: {  }

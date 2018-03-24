@@ -1,0 +1,17 @@
+uuid: 30a07a40-500e-4708-a7ca-234407c91f8b
+langcode: en
+status: true
+dependencies:
+  module:
+    - markdown
+name: 'PHP Markdown'
+format: php_markdown
+weight: 0
+filters:
+  markdown:
+    id: markdown
+    provider: markdown
+    status: true
+    weight: 0
+    settings:
+      parser: php_markdown
