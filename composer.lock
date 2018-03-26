@@ -1988,7 +1988,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/markdown",
-                "reference": "7ded0e32380868d46af3a011433eb28d40424a59"
+                "reference": "8a9d573739e5aade5ac1bec957a4ada39aee8a8c"
             },
             "require": {
                 "drupal/core": "~8.0",
@@ -2007,7 +2007,7 @@
                 },
                 "drupal": {
                     "version": "8.x-2.x-dev",
-                    "datestamp": "1521928080",
+                    "datestamp": "1522079284",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -2040,7 +2040,7 @@
                 "source": "https://cgit.drupalcode.org/markdown",
                 "issues": "https://www.drupal.org/project/markdown"
             },
-            "time": "2018-03-26T15:47:49+00:00"
+            "time": "2018-03-26T18:48:48+00:00"
         },
         {
             "name": "drupal/menu_link_attributes",
@@ -2495,16 +2495,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.3.0",
+            "version": "6.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "f4db5a78a5ea468d4831de7f0bf9d9415e348699"
+                "reference": "68d0ea14d5a3f42a20e87632a5f84931e2709c90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/f4db5a78a5ea468d4831de7f0bf9d9415e348699",
-                "reference": "f4db5a78a5ea468d4831de7f0bf9d9415e348699",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/68d0ea14d5a3f42a20e87632a5f84931e2709c90",
+                "reference": "68d0ea14d5a3f42a20e87632a5f84931e2709c90",
                 "shasum": ""
             },
             "require": {
@@ -2514,7 +2514,7 @@
             },
             "require-dev": {
                 "ext-curl": "*",
-                "phpunit/phpunit": "^4.0 || ^5.0",
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4",
                 "psr/log": "^1.0"
             },
             "suggest": {
@@ -2523,7 +2523,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.2-dev"
+                    "dev-master": "6.3-dev"
                 }
             },
             "autoload": {
@@ -2556,7 +2556,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2017-06-22T18:50:49+00:00"
+            "time": "2018-03-26T16:33:04+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -2763,16 +2763,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "0.17.1",
+            "version": "0.17.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "38b2fca6b8493abd9314fcf6b5b042cfba6a0f11"
+                "reference": "ea1f655153cd618876634d86000b9b60c15bacd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/38b2fca6b8493abd9314fcf6b5b042cfba6a0f11",
-                "reference": "38b2fca6b8493abd9314fcf6b5b042cfba6a0f11",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/ea1f655153cd618876634d86000b9b60c15bacd2",
+                "reference": "ea1f655153cd618876634d86000b9b60c15bacd2",
                 "shasum": ""
             },
             "require": {
@@ -2828,7 +2828,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2018-03-18T13:01:30+00:00"
+            "time": "2018-03-26T01:39:03+00:00"
         },
         {
             "name": "league/commonmark-extras",
