@@ -6,17 +6,17 @@ definitions:
     weight: 0
     expanded: false
   user__page:
-    weight: -49
+    enabled: false
     menu_name: account
     parent: ''
-    enabled: false
     expanded: false
+    weight: -10
   user__logout:
-    weight: -48
+    enabled: false
     menu_name: account
     parent: ''
+    weight: 10
     expanded: false
-    enabled: false
   standard__front_page:
     weight: -48
     menu_name: main
