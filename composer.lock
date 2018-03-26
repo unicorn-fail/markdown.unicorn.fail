@@ -2763,16 +2763,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "0.17.2",
+            "version": "0.17.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "ea1f655153cd618876634d86000b9b60c15bacd2"
+                "reference": "fae7d27d6667365b0f497418014916d9918827ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/ea1f655153cd618876634d86000b9b60c15bacd2",
-                "reference": "ea1f655153cd618876634d86000b9b60c15bacd2",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/fae7d27d6667365b0f497418014916d9918827ab",
+                "reference": "fae7d27d6667365b0f497418014916d9918827ab",
                 "shasum": ""
             },
             "require": {
@@ -2828,7 +2828,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2018-03-26T01:39:03+00:00"
+            "time": "2018-03-26T20:05:02+00:00"
         },
         {
             "name": "league/commonmark-extras",
