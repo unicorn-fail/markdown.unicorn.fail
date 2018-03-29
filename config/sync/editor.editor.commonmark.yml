@@ -1,0 +1,37 @@
+uuid: 20f118a8-4dc1-4046-b579-8b97db3b05d4
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.commonmark
+  module:
+    - editor_md
+format: commonmark
+editor: editor_md
+settings:
+  mode: gfm
+  height: 440px
+  width: 100%
+  watch: 0
+  theme: dark
+  editorTheme: mbo
+  previewTheme: dark
+  toolbar: 1
+  toolbarAutoFixed: 1
+  toolbarMode: custom
+  toolbarIcons:
+    - bold
+    - italic
+    - quote
+    - '|'
+    - h1
+    - h2
+    - h3
+    - h4
+    - h5
+    - h6
+    - '|'
+    - list-ul
+    - list-ol
+    - hr
+image_upload: {  }

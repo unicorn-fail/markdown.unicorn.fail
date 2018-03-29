@@ -1,22 +1,25 @@
-// @todo these should be their own CSS files and only included when
-// specific Drupal libraries are used.
-//@import "component/alert";
-//@import "component/ajax";
-//@import "component/field";
-//@import "component/file";
-//@import "component/filter";
-//@import "component/form";
-//@import "component/icon";
-//@import "component/navbar";
-//@import "component/node";
-//@import "component/panel";
-//@import "component/progress-bar";
-//@import "component/table-drag";
-//@import "component/tabs";
-//@import "component/toolbar";
+$toolbar-height: 39px;
 
-// jQuery UI style overrides.
-//@import "jquery-ui/autocomplete";
+html { font-size: 16px; }
+
+.toolbar-fixed {
+  padding-top: $toolbar-height;
+}
+
+.toolbar-horizontal.toolbar-tray-open {
+  padding-top: ($toolbar-height * 2);
+}
+
+.toolbar-loading {
+  #toolbar-administration {
+    margin-top: -($toolbar-height);
+  }
+
+  &.toolbar-horizontal.toolbar-tray-open #toolbar-administration {
+    margin-top: -($toolbar-height * 2);
+    margin-bottom: $toolbar-height;
+  }
+}
 
 ol, ul {
   padding-left: 1.5em;
@@ -130,11 +133,24 @@ ul, ol {
   word-break: break-word;
 }
 
+.fade {
+  opacity: 1;
+  .js & {
+    opacity: 0;
+    visibility: hidden;
+    @include transition(opacity .15s linear);
+    &.in {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
 .markdown-input {
   background: $gray-dark;
   margin: -20px (-($grid-gutter-width / 2)) $grid-gutter-width;
 
-  .form-type-textarea, .form-textarea-wrapper, textarea {
+  .text-format-wrapper, .form-type-textarea, .form-textarea-wrapper, textarea {
     background: transparent;
     border: 0;
     color: #fff;
@@ -163,6 +179,10 @@ ul, ol {
       opacity: .5;
     }
   }
+}
+
+.markdown-splitter {
+  display: none;
 }
 
 .markdown-parsers {
@@ -218,30 +238,33 @@ ul, ol {
 }
 
 @media (min-width: $grid-float-breakpoint) {
-  .container > .navbar-header,
-  .container-fluid > .navbar-header {
-    margin-left: -($grid-gutter-width / 2);
-    padding-left: ($grid-gutter-width / 2);
-    width: 25vw;
-  }
-
   .markdown-wrapper {
+    display: flex;
     position: fixed;
-    top: 50px;
+    top: $navbar-height;
     left: 0;
     right: 0;
     bottom: 0;
     margin: 0;
+
+    .toolbar-fixed & {
+      top: ($navbar-height + $toolbar-height);
+    }
+    .toolbar-horizontal.toolbar-tray-open & {
+      top: ($navbar-height + ($toolbar-height * 2));
+    }
+    .toolbar-vertical.toolbar-tray-open & {
+      left: 240px;
+      left: 15rem;
+    }
   }
 
   .markdown-input {
-    bottom: 0;
-    left: 0;
+    height: 100%;
     margin: 0;
     padding-bottom: 50px;
-    position: absolute;
-    top: 0;
-    width: 25vw;
+    position: relative;
+    width: 33.333%;
 
     .btn {
       bottom: 0;
@@ -251,15 +274,20 @@ ul, ol {
       right: 0;
     }
 
+    .ui-resizable-handle {
+      background: transparent;
+      border: 2px dashed #555;
+      right: -4px;
+      width: 0;
+    }
+
   }
 
   .markdown-parsers {
-    bottom: 0;
-    left: 25vw;
-    position: absolute;
-    right: 0;
-    top: 0;
     height: 100%;
+    max-width: 66.66%;
+    position: relative;
+    width: 100%;
 
     > h3 {
       margin: 0 ($grid-gutter-width  / 2) 0;
@@ -272,6 +300,7 @@ ul, ol {
       position: absolute;
       right: 0;
       top: 0;
+      z-index: 100;
       > li, > li > a {
         width: auto;
       }
@@ -290,13 +319,9 @@ ul, ol {
     }
   }
 
-  .markdown-panes .tab-pane.active {
-    display: flex;
-    justify-content: space-between;
-  }
-
   .markdown-html,
   .markdown-rendered {
+    float: left;
     height: 100%;
     overflow-y: scroll;
     padding-bottom: 100px;

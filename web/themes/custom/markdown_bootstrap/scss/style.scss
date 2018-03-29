@@ -53,6 +53,9 @@
 @import "../bootstrap/assets/stylesheets/bootstrap/utilities";
 @import "../bootstrap/assets/stylesheets/bootstrap/responsive-utilities";
 
+// Editor.md styling.
+@import "editor.md";
+
 // Markdown (HTML source) PrismJS styling.
 @import "markdown-prismjs";
 

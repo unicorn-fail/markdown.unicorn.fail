@@ -7,6 +7,7 @@ use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\filter\Element\TextFormat;
 use Drupal\markdown_demo\MarkdownDemo;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -67,13 +68,13 @@ class MarkdownDemoForm extends FormBase {
     // Wrapper.
     $form['wrapper'] = [
       '#theme_wrappers' => ['container__markdown__wrapper'],
-      '#attributes' => ['class' => ['markdown-wrapper']],
+      '#attributes' => ['class' => ['markdown-wrapper', 'fade']],
     ];
     $wrapper =& $form['wrapper'];
 
     // Input.
     $wrapper['input'] = [
-      '#theme_wrappers' => ['container__markdown__rendered'],
+      '#theme_wrappers' => ['container__markdown__input'],
       '#attributes' => ['class' => ['markdown-input']],
     ];
 
@@ -85,8 +86,13 @@ class MarkdownDemoForm extends FormBase {
     ];
 
     $wrapper['input']['markdown'] = [
-      '#type' => 'textarea',
+      '#type' => 'text_format',
       '#default_value' => $markdown->getMarkdown(),
+      '#format' => 'commonmark',
+      '#process' => [
+        [TextFormat::class, 'processFormat'],
+        [static::class, 'processFormat'],
+      ],
     ];
 
     $wrapper['input']['expires'] = $markdown->buildExpire();
@@ -97,6 +103,7 @@ class MarkdownDemoForm extends FormBase {
       '#attributes' => ['class' => ['btn-primary', 'btn-block', 'btn-lg']],
     ];
 
+    // Parsers.
     $wrapper['parsers'] = [
       '#theme_wrappers' => ['container__markdown__parsers'],
       '#attributes' => ['class' => ['markdown-parsers']],
@@ -197,15 +204,38 @@ class MarkdownDemoForm extends FormBase {
   }
 
   /**
+   * Callback for processing the input format element.
+   *
+   * @param array $element
+   *   The render array element.
+   *
+   * @return array
+   *   The modified render array element.
+   */
+  public static function processFormat(array $element) {
+    // Hide the guidelines and tips.
+    $element['format']['guidelines']['#access'] = FALSE;
+    $element['format']['help']['#access'] = FALSE;
+
+    // Hide the select element by converting it into a hidden input.
+    // Note: this is still needed for Drupal's format JS to work.
+    $element['format']['format']['#type'] = 'hidden';
+
+    return $element;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $options = [];
 
     // Extract the submitted markdown.
-    if (($markdown = $form_state->getValue('markdown')) && ($cached_markdown = $this->demo->setMarkdown($markdown))) {
+    if (($markdown = $form_state->getValue('markdown')) && !empty($markdown['value']) && ($cached_markdown = $this->demo->setMarkdown($markdown['value']))) {
       list($type, $id) = explode(':', $cached_markdown->getId());
-      $options['query'][$type] = $id;
+      if (!($type === 'example' && $id === 'default')) {
+        $options['query'][$type] = $id;
+      }
     }
 
     // Redirect back to the front page.

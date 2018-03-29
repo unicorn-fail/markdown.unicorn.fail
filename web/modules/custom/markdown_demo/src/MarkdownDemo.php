@@ -124,14 +124,13 @@ class MarkdownDemo {
   }
 
   protected function findMarkdown($markdown) {
-    $found = FALSE;
+    $normalized_markdown = CachedMarkdown::normalizeMarkdown($markdown);
     foreach ($this->cachedMarkdown as $cached_markdown) {
-      if ($markdown === $cached_markdown->getMarkdown()) {
-        $found = TRUE;
-        break;
+      if ($normalized_markdown === $cached_markdown->getMarkdown()) {
+        return $cached_markdown;
       }
     }
-    return $found;
+    return FALSE;
   }
 
   /**
@@ -140,9 +139,6 @@ class MarkdownDemo {
    * @return \Drupal\markdown_demo\CachedMarkdown|null
    */
   public function setMarkdown($markdown) {
-    // Replace new lines.
-    $markdown = trim(preg_replace('/\\r\\n|\\n/', "\n", $markdown));
-
     // Determine file size.
     $size = Unicode::strlen($markdown);
 
@@ -151,8 +147,8 @@ class MarkdownDemo {
     }
 
     // Don't duplicate existing cached markdown.
-    if ($size && !$this->findMarkdown($markdown)) {
-      return CachedMarkdown::create($markdown);
+    if ($size) {
+      return $this->findMarkdown($markdown) ?: CachedMarkdown::create($markdown);
     }
   }
 

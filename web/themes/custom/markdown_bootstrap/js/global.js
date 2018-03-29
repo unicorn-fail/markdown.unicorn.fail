@@ -242,10 +242,17 @@
     }
   });
 
+  $document.on('editormd:loaded', function () {
+    $('.loading.sk-cube-grid').fadeOut();
+    $('.markdown-wrapper').addClass('in');
+  });
+
   // DOM ready.
   $document.ready(function () {
     // Highlight code on page.
     Prism.highlightAll();
+
+    // Timeago.
     $('time.timeago').timeago();
   });
 

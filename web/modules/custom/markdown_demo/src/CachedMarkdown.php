@@ -106,8 +106,16 @@ class CachedMarkdown {
     return $this->size;
   }
 
+  public function matches($markdown) {
+    return static::normalizeMarkdown($markdown) === $this->markdown;
+  }
+
+  public static function normalizeMarkdown($markdown) {
+    return trim(preg_replace('/\\r\\n|\\n/', "\n", $markdown));
+  }
+
   public function setMarkdown($markdown) {
-    $this->markdown = $markdown;
+    $this->markdown = static::normalizeMarkdown($markdown);
     $this->size = Unicode::strlen($markdown);
 
     // Parse all supported formats.

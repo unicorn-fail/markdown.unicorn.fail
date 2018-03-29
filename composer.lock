@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5535e2b6373e02f52c0587bae6f2c92d",
+    "content-hash": "29b5507e2deea4d04cf97a9d0a18a32c",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1983,6 +1983,57 @@
             "time": "2018-03-07T21:10:20+00:00"
         },
         {
+            "name": "drupal/editor_md",
+            "version": "dev-3.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/editor_md",
+                "reference": "55eba5a12194778c1f576cadc6e9f86e776d1810"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "drupal/markdown": "^2.0",
+                "unicorn-fail/editor.md": "^1.5.1"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.x": "3.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-3.x-dev",
+                    "datestamp": "1522360380",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "a wei (a65162)",
+                    "homepage": "https://www.drupal.org/u/a65162",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Mark Carver (markcarver)",
+                    "homepage": "https://www.drupal.org/u/markcarver",
+                    "role": "Co-Maintainer"
+                }
+            ],
+            "description": "Powerful open source Markdown editor.",
+            "homepage": "https://drupal.org/project/editor_md",
+            "support": {
+                "source": "http://cgit.drupalcode.org/editor_md",
+                "issues": "https://drupal.org/project/issues/editor_md"
+            },
+            "time": "2018-03-29T22:36:24+00:00"
+        },
+        {
             "name": "drupal/markdown",
             "version": "dev-2.x",
             "source": {
@@ -2007,7 +2058,7 @@
                 },
                 "drupal": {
                     "version": "8.x-2.x-dev",
-                    "datestamp": "1522079284",
+                    "datestamp": "1522090380",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -5089,6 +5140,36 @@
             "time": "2018-03-20T04:25:58+00:00"
         },
         {
+            "name": "unicorn-fail/editor.md",
+            "version": "v1.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/unicorn-fail/editor.md.git",
+                "reference": "fa38e83740ab48693097f5a6aae69981fe62870d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/unicorn-fail/editor.md/zipball/fa38e83740ab48693097f5a6aae69981fe62870d",
+                "reference": "fa38e83740ab48693097f5a6aae69981fe62870d",
+                "shasum": ""
+            },
+            "type": "drupal-library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Carver (markcarver)",
+                    "homepage": "https://www.drupal.org/u/markcarver",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Open source embeddable online markdown editor.",
+            "homepage": "https://www.drupal.org/project/editor_md",
+            "time": "2018-03-29T21:44:54+00:00"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v2.4.0",
             "source": {
@@ -7724,6 +7805,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "drupal/editor_md": 20,
         "drupal/markdown": 20,
         "webuni/commonmark-attributes-extension": 20
     },

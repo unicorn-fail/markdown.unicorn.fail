@@ -1,19 +1,9 @@
 .markdown-html {
   background: $body-bg;
 
- /**
- * Darcula theme
- *
- * Adapted from a theme based on:
- * IntelliJ Darcula Theme (https://github.com/bulenkov/Darcula)
- *
- * @author Alexandre Paradis <service.paradis@gmail.com>
- * @version 1.0
- */
-
   code[class*="language-"],
   pre[class*="language-"] {
-    color: #a9b7c6;
+    color: #ffffec;
     font-family: $font-family-monospace;
     text-shadow: none;
     direction: ltr;
@@ -31,6 +21,13 @@
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
+
+    user-select: text;
+
+    &::selection,
+    &::-moz-selection {
+      background-color: #555;
+    }
   }
 
   pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
@@ -62,11 +59,28 @@
     padding: .1em;
     border-radius: .3em;
   }
+  //
+  //.cm-s-mbo span.cm-atom { color: #00a8c6; }
+  //.cm-s-mbo span.cm-number { color: #00a8c6; }
+  //
+  //.cm-s-mbo span.cm-property, .cm-s-mbo span.cm-attribute { color: #9ddfe9; }
+  //.cm-s-mbo span.cm-keyword { color: #ffb928; }
+  //.cm-s-mbo span.cm-string { color: #ffcf6c; }
+  //.cm-s-mbo span.cm-string.cm-property { color: #ffffec; }
+  //
+  //.cm-s-mbo span.cm-variable { color: #ffffec; }
+  //.cm-s-mbo span.cm-variable-2 { color: #00a8c6; }
+  //.cm-s-mbo span.cm-def { color: #ffffec; }
+  //.cm-s-mbo span.cm-bracket { color: #fffffc; font-weight: bold; }
+  //.cm-s-mbo span.cm-tag { color: #9ddfe9; }
+  //.cm-s-mbo span.cm-link { color: #f54b07; }
+  //.cm-s-mbo span.cm-error { border-bottom: #636363; color: #ffffec; }
+  //.cm-s-mbo span.cm-qualifier { color: #ffffec; }
 
   .token.comment,
   .token.prolog,
   .token.cdata {
-    color: #808080;
+    color: #95958a;
   }
 
   .token.operator,
@@ -83,54 +97,54 @@
   .token.selector,
   .token.important,
   .token.atrule {
-    color: #cc7832;
+    color: #ffb928;
   }
 
   .token.operator,
   .token.punctuation,
   .token.attr-name {
-    color: #a9b7c6;
+    color: #9ddfe9;
   }
 
   .token.tag,
   .token.tag .punctuation,
   .token.doctype,
   .token.builtin {
-    color: #e8bf6a;
+    color: #9ddfe9;
   }
 
   .token.entity,
   .token.number,
   .token.symbol {
-    color: #6897bb;
+    color: #00a8c6;
   }
 
   .token.property,
   .token.constant,
   .token.variable {
-    color: #9876aa;
+    color: #00a8c6;
   }
 
   .token.string,
-  .token.char {
-    color: #6a8759;
-  }
-
+  .token.char,
   .token.attr-value,
   .token.attr-value .punctuation {
-    color: #a5c261;
-  }
-  .token.attr-value .punctuation:first-child {
-    color: #a9b7c6;
+    color: #ffcf6c;
   }
 
-  .token.url {
-    color: #287bde;
+  .token.url,
+  .token.url-link {
+    &, &:active, &:visited {
+      color: #f54b07;
+    }
+    &:hover {
+      color: darken(#f54b07, 5%);
+    }
     text-decoration: underline;
   }
 
   .token.function {
-    color: #ffc66d;
+    color: #ffb928;
   }
 
   .token.regex {

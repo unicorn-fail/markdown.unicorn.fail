@@ -27,6 +27,7 @@
         "drupal/bootstrap": "^3.11",
         "drupal/console": "^1.0.2",
         "drupal/core": "~8.5",
+        "drupal/editor_md": "3.x-dev",
         "drupal/markdown": "2.x-dev",
         "drupal/menu_link_attributes": "^1.0",
         "drush/drush": "^9.0.0",

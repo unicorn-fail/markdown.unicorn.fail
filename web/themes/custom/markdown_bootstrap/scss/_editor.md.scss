@@ -1,0 +1,163 @@
+// Editor.md styles.
+
+.sk-cube-grid {
+  width: 100px;
+  height: 100px;
+  margin: -50px auto;
+  position: relative;
+  top: calc(50vh - 100px);
+}
+
+.sk-cube-grid .sk-cube {
+  width: 33%;
+  height: 33%;
+  background-color: $brand-primary;
+  float: left;
+  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+  animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+}
+.sk-cube-grid .sk-cube1 {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube2 {
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube3 {
+  -webkit-animation-delay: 0.4s;
+  animation-delay: 0.4s; }
+.sk-cube-grid .sk-cube4 {
+  -webkit-animation-delay: 0.1s;
+  animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube5 {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube6 {
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube7 {
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s; }
+.sk-cube-grid .sk-cube8 {
+  -webkit-animation-delay: 0.1s;
+  animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube9 {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s; }
+
+@-webkit-keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+    transform: scale3D(1, 1, 1);
+  } 35% {
+      -webkit-transform: scale3D(0, 0, 1);
+      transform: scale3D(0, 0, 1);
+    }
+}
+
+@keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+    transform: scale3D(1, 1, 1);
+  } 35% {
+      -webkit-transform: scale3D(0, 0, 1);
+      transform: scale3D(0, 0, 1);
+    }
+}
+
+// Editor.md
+.editormd-theme-dark {
+  .editormd-menu > li > a {
+    background: #333;
+    border-color: transparent;
+    color: #777;
+    padding: 3px 5px;
+    &:hover {
+      background: #444;
+    }
+  }
+  .editormd-toolbar {
+    background: $body-bg;
+    border-color: $body-bg;
+  }
+}
+
+.editormd-container-mask {
+  background: $body-bg;
+}
+
+// CodeMirror.
+.editormd .CodeMirror-lines {
+  padding: 0;
+}
+
+@media (min-width: $grid-float-breakpoint) {
+  .editormd {
+    height: 100% !important;
+  }
+  .editormd .CodeMirror {
+    height: calc(100% - 50px) !important;
+  }
+}
+
+.editormd .CodeMirror {
+  &::after {
+    background: #fff;
+    bottom: 0;
+    content: '';
+    left: 739px;
+    display: block;
+    position: absolute;
+    opacity: .15;
+    top: 0;
+    width: 1px;
+    z-index: 1;
+  }
+
+  pre {
+    font-family: $font-family-monospace;
+  }
+
+  .cm-strong {
+    font-weight: 900;
+  }
+
+  &.cm-s-mbo div.CodeMirror-selected,
+  &.cm-s-mbo .CodeMirror-activeline-background {
+    background: #555 !important;
+  }
+
+  .cm-header {
+    &.cm-header-1,
+    &.cm-header-2,
+    &.cm-header-3,
+    &.cm-header-4,
+    &.cm-header-5,
+    &.cm-header-6 {
+      font-family: $font-family-sans-serif;
+      font-weight: $headings-font-weight;
+      &.cm-strong {
+        font-weight: 700;
+      }
+    }
+  }
+
+  .cm-header-1 {
+    font-size: $font-size-h1;
+  }
+  .cm-header-2 {
+    font-size: $font-size-h2;
+  }
+  .cm-header-3 {
+    font-size: $font-size-h3;
+  }
+  .cm-header-4 {
+    font-size: $font-size-h4;
+  }
+  .cm-header-5 {
+    font-size: $font-size-h5;
+  }
+  .cm-header-6 {
+    font-size: $font-size-h6;
+  }
+
+}

@@ -10,6 +10,10 @@ timeago:
     libraries/timeago/jquery.timeago.js: {}
 
 framework:
+  dependencies:
+    - core/jquery.ui.resizable
+    - markdown_bootstrap/prismjs
+    - markdown_bootstrap/timeago
   css:
     theme:
       css/style.css: {}
@@ -27,6 +31,3 @@ framework:
     bootstrap/assets/javascripts/bootstrap/tab.js: {}
     bootstrap/assets/javascripts/bootstrap/transition.js: {}
     js/global.js: {}
-  dependencies:
-    - markdown_bootstrap/prismjs
-    - markdown_bootstrap/timeago

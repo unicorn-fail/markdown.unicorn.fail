@@ -6,7 +6,7 @@ favicon:
 schemas:
   bootstrap: 8000
   markdown_bootstrap: 8000
-navbar_position: static-top
+navbar_position: ''
 region_wells:
   navigation: ''
   navigation_collapsible: ''

@@ -1,0 +1,13 @@
+uuid: c04de938-6cb9-477e-afec-7cd94238e4ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.php_markdown
+  module:
+    - editor_md
+format: php_markdown
+editor: editor_md
+settings:
+  saveHTMLToTextarea: 0
+image_upload: {  }
