@@ -68,13 +68,13 @@ class MarkdownDemoBenchmarks extends ControllerBase {
       ];
 
       $rendered_ms = array_map(function (/** @type \Drupal\markdown_demo\FormattedMarkdown $formatted */$formatted) {
-        return $formatted->getMilliseconds();
+        return $formatted->getMilliseconds(TRUE);
       }, $example->getFormatted());
 
       $max = max($rendered_ms);
       $min = min($rendered_ms);
       foreach ($example->getFormatted() as $format => $formatted) {
-        $ms = $formatted->getMilliseconds();
+        $ms = $formatted->getMilliseconds(TRUE);
         if ($ms === $max) {
           $class = 'markdown-benchmark--slow';
         }
