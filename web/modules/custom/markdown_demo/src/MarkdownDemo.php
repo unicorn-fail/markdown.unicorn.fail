@@ -37,14 +37,38 @@ class MarkdownDemo {
    * A list of examples.
    */
   const EXAMPLES = [
-    'bootstrap' => 'https://github.com/twbs/bootstrap/raw/v4-dev/README.md',
-    'commonmark' => 'https://github.com/commonmark/CommonMark/raw/master/README.md',
-    'homebrew' => 'https://github.com/Homebrew/homebrew-php/raw/master/README.md',
-    'jquery' => 'https://github.com/jquery/jquery/raw/master/README.md',
-    'markdown' => 'https://daringfireball.net/projects/markdown/syntax.text',
-    'php-markdown' => 'https://github.com/michelf/php-markdown/raw/lib/Readme.md',
-    'textmate' => 'https://github.com/textmate/textmate/raw/master/README.md',
-    'thephpleague/commonmark' => 'https://github.com/thephpleague/commonmark/raw/master/README.md',
+    'bootstrap' => [
+      'label' => 'Bootstrap (README.md)',
+      'url' => 'https://github.com/twbs/bootstrap/raw/v4-dev/README.md',
+    ],
+    'commonmark' => [
+      'label' => 'CommonMark(README.md)',
+      'url' => 'https://github.com/commonmark/CommonMark/raw/master/README.md',
+    ],
+    'homebrew' => [
+      'label' => 'Homebrew (README.md)',
+      'url' => 'https://github.com/Homebrew/homebrew-php/raw/master/README.md',
+    ],
+    'jquery' => [
+      'label' => 'jQuery (README.md)',
+      'url' => 'https://github.com/jquery/jquery/raw/master/README.md'
+    ],
+    'markdown' => [
+      'label' => 'Markdown (Original/Syntax)',
+      'url' => 'https://daringfireball.net/projects/markdown/syntax.text',
+    ],
+    'php-markdown' => [
+      'label' => 'PHP Markdown (README.md)',
+      'url' => 'https://github.com/michelf/php-markdown/raw/lib/Readme.md',
+    ],
+    'textmate' => [
+      'label' => 'TextMate (README.md)',
+      'url' => 'https://github.com/textmate/textmate/raw/master/README.md',
+    ],
+    'thephpleague/commonmark' => [
+      'label' => 'thephpleague/commonmark (README.md)',
+      'url' => 'https://github.com/thephpleague/commonmark/raw/master/README.md',
+    ],
   ];
 
   /**
@@ -78,14 +102,14 @@ class MarkdownDemo {
     $this->cache = $cache_backend;
     $this->requestStack = $request_stack;
 
-    $this->cachedMarkdown[static::CACHE_PARAMETER . ':expired'] = CachedMarkdown::load(static::CACHE_PARAMETER . ':expired') ?: CachedMarkdown::create('Cached URLs are only valid for 24 hours. This cached URL has expired and is no longer available.', static::CACHE_PARAMETER . ':expired', Cache::PERMANENT);
+    $this->cachedMarkdown[static::CACHE_PARAMETER . ':expired'] = CachedMarkdown::load(static::CACHE_PARAMETER . ':expired') ?: CachedMarkdown::create('Cached URLs are only valid for 24 hours. This cached URL has expired and is no longer available.', static::CACHE_PARAMETER . ':expired', Cache::PERMANENT)->save();
     $this->cachedMarkdown[static::CACHE_PARAMETER . ':too-large'] = CachedMarkdown::load(static::CACHE_PARAMETER . ':too-large') ?: CachedMarkdown::create($this->t('For the purposes of this demonstration site, submitted Markdown length may not exceed @size.', [
       '@size' => static::SIZE_LIMIT,
-    ]), static::CACHE_PARAMETER . ':too-large', Cache::PERMANENT);
-    $this->cachedMarkdown['example:default'] = CachedMarkdown::load('example:default') ?: CachedMarkdown::createFromPath(drupal_get_path('module', 'markdown') . '/README.md', 'example:default', Cache::PERMANENT);
+    ]), static::CACHE_PARAMETER . ':too-large', Cache::PERMANENT)->save();
+    $this->cachedMarkdown['example:default'] = CachedMarkdown::load('example:default') ?: CachedMarkdown::createFromPath(drupal_get_path('module', 'markdown') . '/README.md', 'example:default', Cache::PERMANENT)->setLabel('Markdown for Drupal (Default)')->save();
 
-    foreach (static::EXAMPLES as $id => $url) {
-      $this->cachedMarkdown["example:$id"] = CachedMarkdown::load("example:$id") ?: CachedMarkdown::createFromUrl($url, "example:$id", Cache::PERMANENT);
+    foreach (static::EXAMPLES as $id => $info) {
+      $this->cachedMarkdown["example:$id"] = CachedMarkdown::load("example:$id") ?: CachedMarkdown::createFromUrl($info['url'], "example:$id", Cache::PERMANENT)->setLabel($info['label'])->save();
     }
 
     // Remove expired markdown objects.
@@ -148,7 +172,7 @@ class MarkdownDemo {
 
     // Don't duplicate existing cached markdown.
     if ($size) {
-      return $this->findMarkdown($markdown) ?: CachedMarkdown::create($markdown);
+      return $this->findMarkdown($markdown) ?: CachedMarkdown::create($markdown)->save();
     }
   }
 

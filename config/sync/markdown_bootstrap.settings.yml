@@ -6,7 +6,6 @@ favicon:
 schemas:
   bootstrap: 8000
   markdown_bootstrap: 8000
-navbar_position: ''
 region_wells:
   navigation: ''
   navigation_collapsible: ''
@@ -21,6 +20,8 @@ fluid_container: 1
 table_responsive: '-1'
 table: ''
 cdn_provider: ''
+modal_enabled: 0
+popover_enabled: 0
 features:
   comment_user_picture: true
   comment_user_verification: true
@@ -30,3 +31,4 @@ logo:
   path: ''
   url: ''
   use_default: true
+tooltip_html: 1

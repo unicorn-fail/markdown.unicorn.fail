@@ -43,6 +43,11 @@ class CachedMarkdown {
    */
   protected $formatted;
 
+  /**
+   * @var string
+   */
+  protected $label;
+
   protected $size;
 
   /**
@@ -98,6 +103,10 @@ class CachedMarkdown {
     return $this->id;
   }
 
+  public function getLabel() {
+    return $this->label ?: $this->getId();
+  }
+
   public function getMarkdown() {
     return $this->markdown;
   }
@@ -112,6 +121,16 @@ class CachedMarkdown {
 
   public static function normalizeMarkdown($markdown) {
     return trim(preg_replace('/\\r\\n|\\n/', "\n", $markdown));
+  }
+
+  public function save() {
+    \Drupal::cache('markdown')->set($this->id, $this, $this->expire);
+    return $this;
+  }
+
+  public function setLabel($label) {
+    $this->label = $label;
+    return $this;
   }
 
   public function setMarkdown($markdown) {
@@ -146,9 +165,6 @@ class CachedMarkdown {
         }
       }
     }
-
-    // Cache the instance.
-    \Drupal::cache('markdown')->set($this->id, $this, $this->expire);
 
     return $this;
   }

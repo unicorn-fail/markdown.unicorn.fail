@@ -2069,7 +2069,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/editor_md",
-                "reference": "55eba5a12194778c1f576cadc6e9f86e776d1810"
+                "reference": "73849e8b1593e1c6f69ae5334d489c86b65013a1"
             },
             "require": {
                 "drupal/core": "~8.0",
@@ -2083,7 +2083,7 @@
                 },
                 "drupal": {
                     "version": "8.x-3.x-dev",
-                    "datestamp": "1522360380",
+                    "datestamp": "1522416485",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -2112,7 +2112,7 @@
                 "source": "http://cgit.drupalcode.org/editor_md",
                 "issues": "https://drupal.org/project/issues/editor_md"
             },
-            "time": "2018-03-29T22:36:24+00:00"
+            "time": "2018-03-30T16:18:55+00:00"
         },
         {
             "name": "drupal/markdown",
@@ -2120,7 +2120,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/markdown",
-                "reference": "b704058b2a085f0304a01d7605cfde076c4f4efa"
+                "reference": "dc1fb0aa586a01a439dadf25d6c117ba13732a85"
             },
             "require": {
                 "drupal/core": "~8.0",
@@ -2138,8 +2138,8 @@
                     "dev-2.x": "2.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-2.0-alpha1+1-dev",
-                    "datestamp": "1522379885",
+                    "version": "8.x-2.0-alpha1+2-dev",
+                    "datestamp": "1522381384",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -2172,7 +2172,7 @@
                 "source": "https://cgit.drupalcode.org/markdown",
                 "issues": "https://www.drupal.org/project/markdown"
             },
-            "time": "2018-03-30T03:41:50+00:00"
+            "time": "2018-03-30T16:12:05+00:00"
         },
         {
             "name": "drupal/menu_link_attributes",

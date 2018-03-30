@@ -89,9 +89,6 @@ pre {
     background-color: darken($brand-primary, 10%);
     color: #fff;
   }
-  small {
-    opacity: .5;
-  }
 }
 
 // Page header.
@@ -144,6 +141,10 @@ ul, ol {
       visibility: visible;
     }
   }
+}
+
+.tooltip-inner {
+  max-width: 300px;
 }
 
 .markdown-input {
@@ -225,6 +226,36 @@ ul, ol {
   }
 }
 
+.markdown-benchmark {
+  background: rgba(0,0,0,.4);
+  border-radius: 3px;
+  color: #fff;
+  line-height: 1;
+  font-size: .85em;
+  font-weight: 600;
+  padding: 3px 6px;
+
+  &.markdown-benchmark--slow {
+    background: #c1b56e;
+    color: $body-bg;
+  }
+
+  &.markdown-benchmark--fast {
+    background: #207f20;
+  }
+
+  &.markdown-benchmark--medium {
+    background: #444;
+  }
+
+  em {
+    font-size: .85em;
+    font-style: normal;
+    margin-left: 2px;
+    opacity: .56;
+  }
+}
+
 .markdown-size {
   background: $body-bg;
   border-radius: 7px;
@@ -284,6 +315,8 @@ ul, ol {
   }
 
   .markdown-parsers {
+    display: flex;
+    flex-direction: column;
     height: 100%;
     max-width: 66.66%;
     position: relative;
@@ -296,26 +329,25 @@ ul, ol {
 
     .nav-tabs {
       background: #333;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
+      display: flex;
+      margin: 0;
+      min-height: 45px;
+      overflow-x: scroll;
       z-index: 100;
+      > li {
+        float: none;
+        margin: 0;
+        min-height: 45px;
+      }
       > li, > li > a {
+        margin: 0;
+        white-space: nowrap;
         width: auto;
       }
     }
 
     .markdown-panes {
-      bottom: 0;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 42px;
-
-      .tab-pane {
-        height: 100%;
-      }
+      display: flex;
     }
   }
 
