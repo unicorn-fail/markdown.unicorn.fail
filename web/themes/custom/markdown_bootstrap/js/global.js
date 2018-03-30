@@ -134,7 +134,7 @@
 
   var sourceHash = function () {
     var hash = location.hash.slice(1);
-    var range = (hash.match(/\.([\d,-]+)$/) || [,''])[1];
+    var range = (hash.match(/\.([\d,-]+)$/) || [])[1];
     if (!range || document.getElementById(hash)) return;
     return '#' + hash.slice(0, hash.lastIndexOf('.'));
   };
