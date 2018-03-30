@@ -2039,7 +2039,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/markdown",
-                "reference": "8a9d573739e5aade5ac1bec957a4ada39aee8a8c"
+                "reference": "987d4bb69bfdde1fe902a7043c1ca6ec0c7ba9c5"
             },
             "require": {
                 "drupal/core": "~8.0",
@@ -2091,7 +2091,7 @@
                 "source": "https://cgit.drupalcode.org/markdown",
                 "issues": "https://www.drupal.org/project/markdown"
             },
-            "time": "2018-03-26T18:48:48+00:00"
+            "time": "2018-03-30T03:17:07+00:00"
         },
         {
             "name": "drupal/menu_link_attributes",

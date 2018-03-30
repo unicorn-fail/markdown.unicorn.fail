@@ -16,7 +16,7 @@ class CachedMarkdown {
   /**
    * @var array
    */
-  protected static $formats = ['commonmark', 'parsedown', 'php_markdown'];
+  protected static $formats = ['cmark', 'commonmark', 'parsedownextra', 'php_markdown'];
 
   /**
    * @var array

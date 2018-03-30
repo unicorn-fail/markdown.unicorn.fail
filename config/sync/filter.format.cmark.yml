@@ -1,11 +1,11 @@
-uuid: 6f6d2677-4064-486e-b395-791f25db6eac
+uuid: 450ad899-7f52-4ff6-ad80-ab59cca06623
 langcode: en
 status: true
 dependencies:
   module:
     - markdown
-name: Parsedown
-format: parsedown
+name: Cmark
+format: cmark
 weight: 0
 filters:
   markdown:
@@ -14,4 +14,4 @@ filters:
     status: true
     weight: 0
     settings:
-      parser: parsedown
+      parser: pecl/cmark

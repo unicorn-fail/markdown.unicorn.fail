@@ -14,7 +14,7 @@ filters:
     status: true
     weight: 0
     settings:
-      parser: commonmark
+      parser: thephpleague/commonmark
   filter_html:
     id: filter_html
     provider: filter

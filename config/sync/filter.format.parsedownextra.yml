@@ -1,11 +1,11 @@
-uuid: 30a07a40-500e-4708-a7ca-234407c91f8b
+uuid: 5e285b4d-fc67-4ff4-99f9-9e85571e271a
 langcode: en
 status: true
 dependencies:
   module:
     - markdown
-name: 'PHP Markdown'
-format: php_markdown
+name: ParsedownExtra
+format: parsedownextra
 weight: 0
 filters:
   markdown:
@@ -14,4 +14,4 @@ filters:
     status: true
     weight: 0
     settings:
-      parser: michelf/php-markdown
+      parser: erusev/parsedown-extra
