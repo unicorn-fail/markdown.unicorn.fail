@@ -2039,7 +2039,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/markdown",
-                "reference": "987d4bb69bfdde1fe902a7043c1ca6ec0c7ba9c5"
+                "reference": "b704058b2a085f0304a01d7605cfde076c4f4efa"
             },
             "require": {
                 "drupal/core": "~8.0",
@@ -2057,8 +2057,8 @@
                     "dev-2.x": "2.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-2.x-dev",
-                    "datestamp": "1522090380",
+                    "version": "8.x-2.0-alpha1+1-dev",
+                    "datestamp": "1522379885",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -2091,7 +2091,7 @@
                 "source": "https://cgit.drupalcode.org/markdown",
                 "issues": "https://www.drupal.org/project/markdown"
             },
-            "time": "2018-03-30T03:17:07+00:00"
+            "time": "2018-03-30T03:41:50+00:00"
         },
         {
             "name": "drupal/menu_link_attributes",
