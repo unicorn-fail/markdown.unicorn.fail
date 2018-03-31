@@ -14,24 +14,32 @@ class FormattedMarkdown {
   use StringTranslationTrait;
 
   /**
+   * The filter format to use.
+   *
    * @var string
    */
   protected $format;
 
+  /**
+   * The parsed benchmark.
+   *
+   * @var \Drupal\markdown\MarkdownBenchmark
+   */
+  protected $benchmarkParsed;
 
   /**
-   * The raw benchmark.
+   * The rendered benchmark.
    *
-   * @var \Drupal\markdown_demo\Benchmark
+   * @var \Drupal\markdown\MarkdownBenchmark
    */
-  protected $parsedBenchmark;
+  protected $benchmarkRendered;
 
   /**
-   * The Drupal benchmark.
+   * The total benchmark.
    *
-   * @var \Drupal\markdown_demo\Benchmark
+   * @var \Drupal\markdown\MarkdownBenchmark
    */
-  protected $renderedBenchmark;
+  protected $benchmarkTotal;
 
   /**
    * FormattedMarkdown constructor.
@@ -43,39 +51,61 @@ class FormattedMarkdown {
    */
   public function __construct($format, $markdown) {
     $this->format = $format;
-    $this->renderedBenchmark = Benchmark::create('check_markup', [$markdown, $format]);
-    $this->parsedBenchmark = Benchmark::create([$this->getParser(), 'parse'], [$markdown]);
+    list($this->benchmarkParsed, $this->benchmarkRendered, $this->benchmarkTotal) = $this->getParser()->benchmark($markdown, $format);
   }
 
   /**
    * Builds a render array of the human-readable benchmark diff.
    *
-   * @param bool $all
-   *   Flag indicating whether to show all benchmark times in the label
-   *   (and use tooltip for labels).
+   * @param string $type
+   *   The type of benchmark to build, can be one of:
+   *   - parsed
+   *   - rendered
+   *   - total (default)
+   *   - all
    *
    * @return array
    *   A render array.
    */
-  public function buildBenchmark($all = FALSE) {
-    $total = $this->renderedBenchmark->getMilliseconds();
-    $parsed = $this->parsedBenchmark->getMilliseconds();
-    $rendered = $total - $parsed;
+  public function buildBenchmark($type = 'total') {
+    $rendered = $this->benchmarkRendered->getMilliseconds();
+    $parsed = $this->benchmarkParsed->getMilliseconds();
+    $total = $this->benchmarkTotal->getMilliseconds();
 
-    if ($all) {
-      $label = new FormattableMarkup('@parsed<em>ms</em> / @rendered<em>ms</em> / @total<em>ms</em>', [
-        '@parsed' => $parsed,
-        '@rendered' => $rendered,
-        '@total' => $total,
-      ]);
-      $title = $this->t('Parsed / Rendered / Total');
-    }
-    else {
-      $label = new FormattableMarkup('@total<em>ms</em>', ['@total' => $total]);
-      $title = $this->t('Total Time (parsed @parsedms, rendered @renderedms)', [
-        '@parsed' => $parsed,
-        '@rendered' => $rendered,
-      ]);
+    switch ($type) {
+      case 'parsed':
+        $label = new FormattableMarkup('<span class="parsed">~@parsed<em>ms</em></span>', ['@parsed' => $parsed]);
+        $title = $this->t('Parsed Time (rendered @renderedms, total @totalms)', [
+          '@rendered' => $rendered,
+          '@total' => $total,
+        ]);
+        break;
+
+      case 'rendered':
+        $label = new FormattableMarkup('<span class="rendered">~@rendered<em>ms</em></span>', ['@rendered' => $rendered]);
+        $title = $this->t('Rendered Time (parsed @parsedms, total @totalms)', [
+          '@parsed' => $parsed,
+          '@total' => $total,
+        ]);
+        break;
+
+      case 'all':
+        $label = new FormattableMarkup('<span class="parsed">~@parsed<em>ms</em></span> / <span class="rendered">~@rendered<em>ms</em></span> / <span class="total">~@total<em>ms</em></span>', [
+          '@parsed' => $parsed,
+          '@rendered' => $rendered,
+          '@total' => $total,
+        ]);
+        $title = $this->t('Parsed / Rendered / Total');
+        break;
+
+      // Total.
+      default:
+        $label = new FormattableMarkup('<span class="total">~@total<em>ms</em></span>', ['@total' => $total]);
+        $title = $this->t('Total Time (parsed @parsedms, rendered @renderedms)', [
+          '@parsed' => $parsed,
+          '@rendered' => $rendered,
+        ]);
+        break;
     }
 
     return [
@@ -94,31 +124,67 @@ class FormattedMarkdown {
   /**
    * Retrieves the benchmark difference between start and stop times.
    *
-   * @param bool $raw
-   *   Flag indicating whether to return the raw benchmark (not processed
-   *   through Drupal's internal sub-systems, e.g. formatting, filtering,
-   *   rendering, etc.).
+   * @param string $type
+   *   The type of benchmark to retrieve, can be one of:
+   *   - parsed
+   *   - rendered
+   *   - total (default)
    *
    * @return \DateInterval
    *   The benchmark difference.
    */
-  public function getDiff($raw = FALSE) {
-    return $raw ? $this->parsedBenchmark->getDiff() : $this->renderedBenchmark->getDiff();
+  public function getDiff($type = 'total') {
+    switch ($type) {
+      case 'parsed':
+        return $this->benchmarkParsed->getDiff();
+
+      case 'rendered':
+        return $this->benchmarkRendered->getDiff();
+
+      default:
+        return $this->benchmarkTotal->getDiff();
+    }
+  }
+
+  /**
+   * Retrieves the benchmark emd time.
+   *
+   * @param string $type
+   *   The type of benchmark to retrieve, can be one of:
+   *   - parsed
+   *   - rendered
+   *   - total (default)
+   *
+   * @return \DateTime
+   *   The benchmark stop time.
+   */
+  public function getEnd($type = 'total') {
+    switch ($type) {
+      case 'parsed':
+        return $this->benchmarkParsed->getEnd();
+
+      case 'rendered':
+        return $this->benchmarkRendered->getEnd();
+
+      default:
+        return $this->benchmarkTotal->getEnd();
+    }
   }
 
   /**
    * Retrieves the escaped rendered HTML.
    *
-   * @param bool $raw
-   *   Flag indicating whether to return the raw benchmark (not processed
-   *   through Drupal's internal sub-systems, e.g. formatting, filtering,
-   *   rendering, etc.).
+   * @param string $type
+   *   The type of benchmark to retrieve, can be one of:
+   *   - parsed
+   *   - rendered
+   *   - total (default)
    *
    * @return string
    *   The escaped rendered HTML.
    */
-  public function getEscapedHtml($raw = FALSE) {
-    return Html::escape($this->getRenderedHtml($raw));
+  public function getEscapedHtml($type = 'total') {
+    return Html::escape($this->getRenderedHtml($type));
   }
 
   /**
@@ -147,16 +213,28 @@ class FormattedMarkdown {
   /**
    * Retrieves the amount of milliseconds from the diff.
    *
-   * @param bool $raw
-   *   Flag indicating whether to return the raw benchmark (not processed
-   *   through Drupal's internal sub-systems, e.g. formatting, filtering,
-   *   rendering, etc.).
+   * @param string $type
+   *   The type of benchmark to retrieve, can be one of:
+   *   - parsed
+   *   - rendered
+   *   - total (default)
+   * @param bool $format
+   *   Flag indicating whether to format the result to two decimals.
    *
-   * @return float|int
+   * @return string|float
    *   The milliseconds.
    */
-  public function getMilliseconds($raw = FALSE) {
-    return $raw ? $this->parsedBenchmark->getMilliseconds() : $this->renderedBenchmark->getMilliseconds();
+  public function getMilliseconds($type = 'total', $format = TRUE) {
+    switch ($type) {
+      case 'parsed':
+        return $this->benchmarkParsed->getMilliseconds($format);
+
+      case 'rendered':
+        return $this->benchmarkRendered->getMilliseconds($format);
+
+      default:
+        return $this->benchmarkTotal->getMilliseconds($format);
+    }
   }
 
   /**
@@ -176,45 +254,50 @@ class FormattedMarkdown {
   /**
    * Retrieves the rendered HTML markup.
    *
-   * @param bool $raw
-   *   Flag indicating whether to return the raw benchmark (not processed
-   *   through Drupal's internal sub-systems, e.g. formatting, filtering,
-   *   rendering, etc.).
+   * @param string $type
+   *   The type of benchmark to retrieve, can be one of:
+   *   - parsed
+   *   - rendered
+   *   - total (default)
    *
    * @return \Drupal\Component\Render\MarkupInterface
    *   The rendered markup.
    */
-  public function getRenderedHtml($raw = FALSE) {
-    return $raw ? $this->parsedBenchmark->getResult() : $this->renderedBenchmark->getResult();
+  public function getRenderedHtml($type = 'total') {
+    switch ($type) {
+      case 'parsed':
+        return $this->benchmarkParsed->getResult();
+
+      case 'rendered':
+        return $this->benchmarkRendered->getResult();
+
+      default:
+        return $this->benchmarkTotal->getResult();
+    }
   }
 
   /**
    * Retrieve the benchmark start time.
    *
-   * @param bool $raw
-   *   Flag indicating whether to return the raw benchmark (not processed
-   *   through Drupal's internal sub-systems, e.g. formatting, filtering,
-   *   rendering, etc.).
+   * @param string $type
+   *   The type of benchmark to retrieve, can be one of:
+   *   - parsed
+   *   - rendered
+   *   - total (default)
    *
    * @return bool|\DateTime
    */
-  public function getStart($raw = FALSE) {
-    return $raw ? $this->parsedBenchmark->getStart() : $this->renderedBenchmark->getStart();
-  }
+  public function getStart($type = 'total') {
+    switch ($type) {
+      case 'parsed':
+        return $this->benchmarkParsed->getStart();
 
-  /**
-   * Retrieves the benchmark stop time.
-   *
-   * @param bool $raw
-   *   Flag indicating whether to return the raw benchmark (not processed
-   *   through Drupal's internal sub-systems, e.g. formatting, filtering,
-   *   rendering, etc.).
-   *
-   * @return \DateTime
-   *   The benchmark stop time.
-   */
-  public function getStop($raw = FALSE) {
-    return $raw ? $this->parsedBenchmark->getStop() : $this->renderedBenchmark->getStop();
+      case 'rendered':
+        return $this->benchmarkRendered->getStart();
+
+      default:
+        return $this->benchmarkTotal->getStart();
+    }
   }
 
 }

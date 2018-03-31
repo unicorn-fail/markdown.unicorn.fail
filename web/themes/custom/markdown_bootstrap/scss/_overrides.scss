@@ -226,26 +226,59 @@ ul, ol {
   }
 }
 
+table.benchmarks,
+table.parsed-averages,
+table.rendered-averages,
+table.total-averages {
+  td {
+    width: 20%;
+  }
+  td:first-child {
+    max-width: 25vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+    width: 25vw;
+  }
+}
+
 .markdown-benchmark {
   background: rgba(0,0,0,.4);
   border-radius: 3px;
   color: #fff;
   line-height: 1;
+  font-family: $font-family-monospace;
   font-size: .85em;
   font-weight: 600;
-  padding: 3px 6px;
+  padding: 7px 15px;
+
+  table.benchmarks td:not(:first-child) & {
+    align-items: center;
+    display: inline-flex;
+    justify-content: space-evenly;
+    line-height: 0;
+    min-width: 300px;
+    padding: 15px 0;
+  }
 
   &.markdown-benchmark--slow {
-    background: #c1b56e;
-    color: $body-bg;
+    background: $state-danger-text;
   }
 
   &.markdown-benchmark--fast {
-    background: #207f20;
+    background: $state-success-text;
   }
 
   &.markdown-benchmark--medium {
-    background: #444;
+    background: #d2c682;
+    color: $body-bg;
+  }
+
+  &.markdown-benchmark--average {
+    display: inline-block;
+    margin-right: 5px;
+    min-width: 100px;
+    text-align: center;
   }
 
   em {
@@ -254,6 +287,10 @@ ul, ol {
     margin-left: 2px;
     opacity: .56;
   }
+}
+
+.alert.margin-bottom {
+  margin-bottom: $grid-gutter-width;
 }
 
 .markdown-size {

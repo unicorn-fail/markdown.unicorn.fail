@@ -121,6 +121,11 @@
     font-weight: 900;
   }
 
+  &.cm-s-mbo span.variable.cm-comment,
+  &.cm-s-mbo span.cm-variable-2.cm-comment {
+    color: #95958a;
+  }
+
   &.cm-s-mbo div.CodeMirror-selected,
   &.cm-s-mbo .CodeMirror-activeline-background {
     background: #555 !important;

@@ -19,11 +19,6 @@ class CachedMarkdown {
   protected static $formats = ['cmark', 'commonmark', 'parsedownextra', 'php_markdown'];
 
   /**
-   * @var array
-   */
-  protected $benchmarks;
-
-  /**
    * @var int
    */
   protected $expire;
@@ -87,10 +82,6 @@ class CachedMarkdown {
     ];
   }
 
-  public function getBenchmarks() {
-    return $this->benchmarks;
-  }
-
   public function getExpire() {
     return $this->expire;
   }
@@ -143,29 +134,6 @@ class CachedMarkdown {
       $this->formatted[$format] = new FormattedMarkdown($format, $markdown);
     }
 
-    $this->benchmarks = [];
-    foreach ($this->formatted as $format => $formatted) {
-      $current_time = $formatted->getDiff();
-      foreach ($this->formatted as $format2 => $formatted2) {
-        if ($format === $format2) {
-          continue;
-        }
-        $diff = $formatted2->getDiff()->f / $current_time->f;
-        if ($diff > 0) {
-          $this->benchmarks[$format][$format2] = $this->t('@amount times faster than @parser', [
-            '@amount' => ceil($diff),
-            '@parser' => $formatted2->getLabel(),
-          ]);
-        }
-        elseif ($diff < 0) {
-          $this->benchmarks[$format][$format2] = $this->t('@amount times slower than @parser', [
-            '@amount' => ceil($diff),
-            '@parser' => $formatted2->getLabel(),
-          ]);
-        }
-      }
-    }
-
     return $this;
   }
 
@@ -205,7 +173,14 @@ class CachedMarkdown {
    * @return static|null
    */
   public static function load($id = NULL) {
-    $id = $id ?: \Drupal::requestStack()->getCurrentRequest()->query->get(MarkdownDemo::CACHE_PARAMETER);
+    $query = \Drupal::requestStack()->getCurrentRequest()->query;
+
+    // Allow authenticated users to bypass cache.
+    if ($query->get('bypass-cache') && \Drupal::currentUser()->isAuthenticated()) {
+      return NULL;
+    }
+
+    $id = $id ?: $query->get(MarkdownDemo::CACHE_PARAMETER);
     if ($id && ($cache = \Drupal::cache('markdown')->get($id)) && $cache->data instanceof static) {
       return $cache->data;
     }

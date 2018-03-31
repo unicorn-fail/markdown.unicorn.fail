@@ -2069,7 +2069,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/editor_md",
-                "reference": "73849e8b1593e1c6f69ae5334d489c86b65013a1"
+                "reference": "ce87426b084a58880ea88c48dc7319a72bc39ec3"
             },
             "require": {
                 "drupal/core": "~8.0",
@@ -2083,7 +2083,7 @@
                 },
                 "drupal": {
                     "version": "8.x-3.x-dev",
-                    "datestamp": "1522416485",
+                    "datestamp": "1522426684",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -2112,7 +2112,7 @@
                 "source": "http://cgit.drupalcode.org/editor_md",
                 "issues": "https://drupal.org/project/issues/editor_md"
             },
-            "time": "2018-03-30T16:18:55+00:00"
+            "time": "2018-03-31T07:50:40+00:00"
         },
         {
             "name": "drupal/markdown",
@@ -2120,7 +2120,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/markdown",
-                "reference": "dc1fb0aa586a01a439dadf25d6c117ba13732a85"
+                "reference": "617a40f2a6fe6db3c2e21244adf9dde69b2e59c5"
             },
             "require": {
                 "drupal/core": "~8.0",
@@ -2138,8 +2138,8 @@
                     "dev-2.x": "2.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-2.0-alpha1+2-dev",
-                    "datestamp": "1522381384",
+                    "version": "8.x-2.0-alpha1+4-dev",
+                    "datestamp": "1522523584",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -2172,7 +2172,7 @@
                 "source": "https://cgit.drupalcode.org/markdown",
                 "issues": "https://www.drupal.org/project/markdown"
             },
-            "time": "2018-03-30T16:12:05+00:00"
+            "time": "2018-03-31T23:17:58+00:00"
         },
         {
             "name": "drupal/menu_link_attributes",
@@ -3605,24 +3605,24 @@
         },
         {
             "name": "stecman/symfony-console-completion",
-            "version": "0.7.0",
+            "version": "0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stecman/symfony-console-completion.git",
-                "reference": "5461d43e53092b3d3b9dbd9d999f2054730f4bbb"
+                "reference": "cd738867503477e91dbe84173dfabd431c883431"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stecman/symfony-console-completion/zipball/5461d43e53092b3d3b9dbd9d999f2054730f4bbb",
-                "reference": "5461d43e53092b3d3b9dbd9d999f2054730f4bbb",
+                "url": "https://api.github.com/repos/stecman/symfony-console-completion/zipball/cd738867503477e91dbe84173dfabd431c883431",
+                "reference": "cd738867503477e91dbe84173dfabd431c883431",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
-                "symfony/console": "~2.3 || ~3.0"
+                "symfony/console": "~2.3 || ~3.0 || ~4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.4"
+                "phpunit/phpunit": "~4.8.36 || ~5.7 || ~6.4"
             },
             "type": "library",
             "extra": {
@@ -3646,7 +3646,7 @@
                 }
             ],
             "description": "Automatic BASH completion for Symfony Console Component based applications.",
-            "time": "2016-02-24T05:08:54+00:00"
+            "time": "2018-02-10T04:28:01+00:00"
         },
         {
             "name": "symfony-cmf/routing",
