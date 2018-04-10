@@ -6,9 +6,12 @@ use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\filter\Entity\FilterFormat;
+use Drupal\markdown\Markdown;
+use Drupal\markdown\MarkdownBenchmark;
+use Drupal\markdown\MarkdownBenchmarkAverages;
+use Drupal\markdown\Plugin\Markdown\MarkdownParserBenchmarkInterface;
 
-class FormattedMarkdown {
+class BenchmarkedFormattedMarkdown {
 
   use DependencySerializationTrait;
   use StringTranslationTrait;
@@ -21,41 +24,43 @@ class FormattedMarkdown {
   protected $format;
 
   /**
-   * The parsed benchmark.
+   * The benchmark averages.
    *
-   * @var \Drupal\markdown\MarkdownBenchmark
+   * @var \Drupal\markdown\MarkdownBenchmarkAverages
    */
-  protected $benchmarkParsed;
+  protected $benchmarkAverages;
 
   /**
-   * The rendered benchmark.
+   * A MarkdownParser plugin configured for the current format.
    *
-   * @var \Drupal\markdown\MarkdownBenchmark
+   * @var \Drupal\markdown\Plugin\Markdown\MarkdownParserInterface
    */
-  protected $benchmarkRendered;
-
-  /**
-   * The total benchmark.
-   *
-   * @var \Drupal\markdown\MarkdownBenchmark
-   */
-  protected $benchmarkTotal;
+  protected $parser;
 
   /**
    * FormattedMarkdown constructor.
    *
-   * @param string $format
-   *   The format identifier to use.
    * @param string $markdown
    *   The markdown being formatted.
+   * @param string $format
+   *   The format identifier to use.
+   * @param int $iterations
+   *   The amount of of loop iterations used to average the results of each
+   *   MarkdownParser benchmark.
    */
-  public function __construct($format, $markdown) {
+  public function __construct($markdown, $format, $iterations = 10) {
     $this->format = $format;
-    list($this->benchmarkParsed, $this->benchmarkRendered, $this->benchmarkTotal) = $this->getParser()->benchmark($markdown, $format);
+    $parser = $this->getParser();
+    if ($parser instanceof MarkdownParserBenchmarkInterface) {
+      $this->benchmarkAverages = $parser->benchmarkAverages($markdown, $format, $iterations);
+    }
+    else {
+      $this->benchmarkAverages = MarkdownBenchmarkAverages::create($iterations, MarkdownBenchmark::create('fallback', NULL, NULL, $parser->parse($markdown)));
+    }
   }
 
   /**
-   * Builds a render array of the human-readable benchmark diff.
+   * Builds a render array of the human-readable benchmark averages.
    *
    * @param string $type
    *   The type of benchmark to build, can be one of:
@@ -67,45 +72,40 @@ class FormattedMarkdown {
    * @return array
    *   A render array.
    */
-  public function buildBenchmark($type = 'total') {
-    $rendered = $this->benchmarkRendered->getMilliseconds();
-    $parsed = $this->benchmarkParsed->getMilliseconds();
-    $total = $this->benchmarkTotal->getMilliseconds();
+  public function buildBenchmarkAverages($type = 'total') {
+    if ($this->benchmarkAverages->hasBenchmarks()) {
+      $variables = [
+        '@average' => $this->benchmarkAverages->getIterationCount(),
+        '@parsed' => $this->benchmarkAverages->getAverage('parsed'),
+        '@rendered' => $this->benchmarkAverages->getAverage('rendered'),
+        '@total' => $this->benchmarkAverages->getAverage('total'),
+      ];
+      switch ($type) {
+        case 'parsed':
+          $label = new FormattableMarkup('<span class="parsed">~@parsed<em>ms</em></span>', $variables);
+          $title = $this->t('(@average𝒙) Parsed Time (rendered @renderedms, total @totalms)', $variables);
+          break;
 
-    switch ($type) {
-      case 'parsed':
-        $label = new FormattableMarkup('<span class="parsed">~@parsed<em>ms</em></span>', ['@parsed' => $parsed]);
-        $title = $this->t('Parsed Time (rendered @renderedms, total @totalms)', [
-          '@rendered' => $rendered,
-          '@total' => $total,
-        ]);
-        break;
+        case 'rendered':
+          $label = new FormattableMarkup('<span class="rendered">~@rendered<em>ms</em></span>', $variables);
+          $title = $this->t('(@average𝒙) Rendered Time (parsed @parsedms, total @totalms)', $variables);
+          break;
 
-      case 'rendered':
-        $label = new FormattableMarkup('<span class="rendered">~@rendered<em>ms</em></span>', ['@rendered' => $rendered]);
-        $title = $this->t('Rendered Time (parsed @parsedms, total @totalms)', [
-          '@parsed' => $parsed,
-          '@total' => $total,
-        ]);
-        break;
+        case 'all':
+          $label = new FormattableMarkup('<span class="parsed">~@parsed<em>ms</em></span> / <span class="rendered">~@rendered<em>ms</em></span> / <span class="total">~@total<em>ms</em></span>', $variables);
+          $title = $this->t('(@average𝒙) - Parsed / Rendered / Total', $variables);
+          break;
 
-      case 'all':
-        $label = new FormattableMarkup('<span class="parsed">~@parsed<em>ms</em></span> / <span class="rendered">~@rendered<em>ms</em></span> / <span class="total">~@total<em>ms</em></span>', [
-          '@parsed' => $parsed,
-          '@rendered' => $rendered,
-          '@total' => $total,
-        ]);
-        $title = $this->t('Parsed / Rendered / Total');
-        break;
-
-      // Total.
-      default:
-        $label = new FormattableMarkup('<span class="total">~@total<em>ms</em></span>', ['@total' => $total]);
-        $title = $this->t('Total Time (parsed @parsedms, rendered @renderedms)', [
-          '@parsed' => $parsed,
-          '@rendered' => $rendered,
-        ]);
-        break;
+        // Total.
+        default:
+          $label = new FormattableMarkup('<span class="total">~@total<em>ms</em></span>', $variables);
+          $title = $this->t('(@average𝒙) Total Time (parsed @parsedms, rendered @renderedms)', $variables);
+          break;
+      }
+    }
+    else {
+      $title = $this->t('This MarkdownParser plugin does not implement benchmark testing.');
+      $label = $this->t('N/A');
     }
 
     return [
@@ -134,16 +134,7 @@ class FormattedMarkdown {
    *   The benchmark difference.
    */
   public function getDiff($type = 'total') {
-    switch ($type) {
-      case 'parsed':
-        return $this->benchmarkParsed->getDiff();
-
-      case 'rendered':
-        return $this->benchmarkRendered->getDiff();
-
-      default:
-        return $this->benchmarkTotal->getDiff();
-    }
+    return $this->benchmarkAverages->getLastBenchmark($type)->getDiff();
   }
 
   /**
@@ -159,16 +150,7 @@ class FormattedMarkdown {
    *   The benchmark stop time.
    */
   public function getEnd($type = 'total') {
-    switch ($type) {
-      case 'parsed':
-        return $this->benchmarkParsed->getEnd();
-
-      case 'rendered':
-        return $this->benchmarkRendered->getEnd();
-
-      default:
-        return $this->benchmarkTotal->getEnd();
-    }
+    return $this->benchmarkAverages->getLastBenchmark($type)->getEnd();
   }
 
   /**
@@ -225,16 +207,7 @@ class FormattedMarkdown {
    *   The milliseconds.
    */
   public function getMilliseconds($type = 'total', $format = TRUE) {
-    switch ($type) {
-      case 'parsed':
-        return $this->benchmarkParsed->getMilliseconds($format);
-
-      case 'rendered':
-        return $this->benchmarkRendered->getMilliseconds($format);
-
-      default:
-        return $this->benchmarkTotal->getMilliseconds($format);
-    }
+    return $this->benchmarkAverages->getLastBenchmark($type)->getMilliseconds($format);
   }
 
   /**
@@ -244,11 +217,10 @@ class FormattedMarkdown {
    *   The MarkdownParser plugin.
    */
   public function getParser() {
-    /** @var \Drupal\filter\FilterFormatInterface $format */
-    /** @var \Drupal\markdown\Plugin\Filter\MarkdownFilterInterface $filter */
-    if (($format = FilterFormat::load($this->format)) && ($filter = $format->filters('markdown'))) {
-      return $filter->getParser();
+    if (!isset($this->parser)) {
+      $this->parser = Markdown::create()->getParser(NULL, $this->getFormat());
     }
+    return $this->parser;
   }
 
   /**
@@ -264,16 +236,7 @@ class FormattedMarkdown {
    *   The rendered markup.
    */
   public function getRenderedHtml($type = 'total') {
-    switch ($type) {
-      case 'parsed':
-        return $this->benchmarkParsed->getResult();
-
-      case 'rendered':
-        return $this->benchmarkRendered->getResult();
-
-      default:
-        return $this->benchmarkTotal->getResult();
-    }
+    return $this->benchmarkAverages->getLastBenchmark($type)->getResult();
   }
 
   /**
@@ -288,16 +251,7 @@ class FormattedMarkdown {
    * @return bool|\DateTime
    */
   public function getStart($type = 'total') {
-    switch ($type) {
-      case 'parsed':
-        return $this->benchmarkParsed->getStart();
-
-      case 'rendered':
-        return $this->benchmarkRendered->getStart();
-
-      default:
-        return $this->benchmarkTotal->getStart();
-    }
+    return $this->benchmarkAverages->getLastBenchmark($type)->getStart();
   }
 
 }

@@ -4,7 +4,6 @@ namespace Drupal\markdown_demo;
 
 use Drupal\Component\Utility\Bytes;
 use Drupal\Component\Utility\Unicode;
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -17,16 +16,6 @@ class MarkdownDemo {
 
   use DependencySerializationTrait;
   use StringTranslationTrait;
-
-  /**
-   * The URL parameter used for cached markdown requests.
-   */
-  const CACHE_PARAMETER = 'cache';
-
-  /**
-   * The URL parameter used for predefined example markdown requests.
-   */
-  const EXAMPLE_PARAMETER = 'example';
 
   /**
    * The maximum file size limit a user is allowed to upload.
@@ -51,7 +40,7 @@ class MarkdownDemo {
     ],
     'jquery' => [
       'label' => 'jQuery (README.md)',
-      'url' => 'https://github.com/jquery/jquery/raw/master/README.md'
+      'url' => 'https://github.com/jquery/jquery/raw/master/README.md',
     ],
     'markdown' => [
       'label' => 'Markdown (Original/Syntax)',
@@ -81,7 +70,7 @@ class MarkdownDemo {
   /**
    * A list of cached markdown objects.
    *
-   * @var \Drupal\markdown_demo\CachedMarkdown[]
+   * @var \Drupal\markdown_demo\CachedFormattedMarkdown[]
    */
   protected $cachedMarkdown = [];
 
@@ -102,55 +91,108 @@ class MarkdownDemo {
     $this->cache = $cache_backend;
     $this->requestStack = $request_stack;
 
-    $this->cachedMarkdown[static::CACHE_PARAMETER . ':expired'] = CachedMarkdown::load(static::CACHE_PARAMETER . ':expired') ?: CachedMarkdown::create('Cached URLs are only valid for 24 hours. This cached URL has expired and is no longer available.', static::CACHE_PARAMETER . ':expired', Cache::PERMANENT)->save();
-    $this->cachedMarkdown[static::CACHE_PARAMETER . ':too-large'] = CachedMarkdown::load(static::CACHE_PARAMETER . ':too-large') ?: CachedMarkdown::create($this->t('For the purposes of this demonstration site, submitted Markdown length may not exceed @size.', [
-      '@size' => static::SIZE_LIMIT,
-    ]), static::CACHE_PARAMETER . ':too-large', Cache::PERMANENT)->save();
-    $this->cachedMarkdown['example:default'] = CachedMarkdown::load('example:default') ?: CachedMarkdown::createFromPath(drupal_get_path('module', 'markdown') . '/README.md', 'example:default', Cache::PERMANENT)->setLabel('Markdown for Drupal (Default)')->save();
-
-    foreach (static::EXAMPLES as $id => $info) {
-      $this->cachedMarkdown["example:$id"] = CachedMarkdown::load("example:$id") ?: CachedMarkdown::createFromUrl($info['url'], "example:$id", Cache::PERMANENT)->setLabel($info['label'])->save();
-    }
+    $this->cachedMarkdown = array_merge(
+      $this->getExamples(TRUE),
+      [$this->getCacheExpiredMarkdown()],
+      [$this->getCacheFileSizeLimitMarkdown()]
+    );
 
     // Remove expired markdown objects.
     $this->cache->garbageCollection();
   }
 
+  public function getCache($id = NULL) {
+    if ($id === NULL) {
+      $id = $this->requestStack->getCurrentRequest()->query->get(CachedFormattedMarkdown::TYPE);
+    }
+
+    // Immediately return if there is valid cache identifier.
+    if (!$id) {
+      return NULL;
+    }
+
+    return CachedFormattedMarkdown::load($id) ?: $this->getCacheExpiredMarkdown();
+  }
+
+  public function getCacheExpiredMarkdown() {
+    return CachedFormattedMarkdown::load('expired') ?: CachedFormattedMarkdown::create('Cached URLs are only valid for 24 hours. This cached URL has expired and is no longer available.')
+      ->setId('expired')
+      ->save();
+  }
+
+  public function getCacheFileSizeLimitMarkdown() {
+    return CachedFormattedMarkdown::load('file-size-limit') ?: CachedFormattedMarkdown::create($this->t('For the purposes of this demonstration site, submitted Markdown length may not exceed @size.', ['@size' => static::SIZE_LIMIT]))
+      ->setId('file-size-limit')
+      ->save();
+  }
+
+  public function getDefaultMarkdown() {
+    return ExampleFormattedMarkdown::load('default') ?: ExampleFormattedMarkdown::createFromPath(drupal_get_path('module', 'markdown') . '/README.md')
+      ->setId('default')
+      ->setLabel('Markdown for Drupal (Default)')
+      ->save();
+  }
+
+  public function getExample($id = NULL) {
+    if ($id === NULL) {
+      $id = $this->requestStack->getCurrentRequest()->query->get(ExampleFormattedMarkdown::TYPE);
+    }
+
+    // Immediately return if there is valid example identifier.
+    if (!$id) {
+      return NULL;
+    }
+
+    $examples = $this->getExamples();
+    return isset($examples[$id]) ? $examples[$id] : NULL;
+  }
+
   /**
    * Retrieves the cached examples.
    *
-   * @return \Drupal\markdown_demo\CachedMarkdown[]
+   * @param bool $include_default
+   *   Flag indicating whether to include the default markdown file as part
+   *   of the examples.
+   *
+   * @return \Drupal\markdown_demo\CachedFormattedMarkdown[]
    */
-  public function getExamples() {
-    $examples = [];
-    foreach (array_keys($this->cachedMarkdown) as $key) {
-      if (strpos($key, 'example:') === 0) {
-        $examples[$key] = $this->cachedMarkdown[$key];
+  public function getExamples($include_default = FALSE) {
+    static $examples;
+    if (!isset($examples)) {
+      $examples = [];
+      foreach (static::EXAMPLES as $id => $info) {
+        $examples[$id] = ExampleFormattedMarkdown::load($id) ?: ExampleFormattedMarkdown::createFromUrl($info['url'])
+          ->setId($id)
+          ->setLabel($info['label'])
+          ->save();
       }
     }
+
+    if ($include_default) {
+      return [$this->getDefaultMarkdown()] + $examples;
+    }
+
     return $examples;
   }
 
   public function getMarkdown() {
-    $query = $this->requestStack->getCurrentRequest()->query;
-
     // Retrieve predefined example markdown object.
-    if (($example = $query->get(static::EXAMPLE_PARAMETER)) && isset($this->cachedMarkdown["example:$example"])) {
-      return $this->cachedMarkdown["example:$example"];
+    if ($example = $this->getExample()) {
+      return $example;
     }
 
     // Retrieve cached markdown object.
-    if ($id = $query->get(static::CACHE_PARAMETER)) {
-      return CachedMarkdown::load(static::CACHE_PARAMETER . ":$id") ?: $this->cachedMarkdown[static::CACHE_PARAMETER . ':expired'];
+    if ($cache = $this->getCache()) {
+      return $cache;
     }
 
-    return $this->cachedMarkdown['example:default'];
+    // Otherwise, just return the default markdown.
+    return $this->getDefaultMarkdown();
   }
 
   protected function findMarkdown($markdown) {
-    $normalized_markdown = CachedMarkdown::normalizeMarkdown($markdown);
     foreach ($this->cachedMarkdown as $cached_markdown) {
-      if ($normalized_markdown === $cached_markdown->getMarkdown()) {
+      if ($cached_markdown->matches($markdown)) {
         return $cached_markdown;
       }
     }
@@ -160,19 +202,19 @@ class MarkdownDemo {
   /**
    * @param $markdown
    *
-   * @return \Drupal\markdown_demo\CachedMarkdown|null
+   * @return \Drupal\markdown_demo\CachedFormattedMarkdown|null
    */
   public function setMarkdown($markdown) {
     // Determine file size.
     $size = Unicode::strlen($markdown);
 
     if ($size > Bytes::toInt(static::SIZE_LIMIT)) {
-      return $this->cachedMarkdown[static::CACHE_PARAMETER . ':too-large'];
+      return $this->getCacheFileSizeLimitMarkdown();
     }
 
     // Don't duplicate existing cached markdown.
     if ($size) {
-      return $this->findMarkdown($markdown) ?: CachedMarkdown::create($markdown)->save();
+      return $this->findMarkdown($markdown) ?: CachedFormattedMarkdown::create($markdown)->save();
     }
   }
 

@@ -250,7 +250,11 @@ table.total-averages {
   font-family: $font-family-monospace;
   font-size: .85em;
   font-weight: 600;
-  padding: 7px 15px;
+  padding: 3px 5px;
+
+  table.benchmarks & {
+    padding: 7px 15px;
+  }
 
   table.benchmarks td:not(:first-child) & {
     align-items: center;
@@ -375,6 +379,16 @@ table.total-averages {
         float: none;
         margin: 0;
         min-height: 45px;
+        .label {
+          display: inline-block;
+          max-width: 150px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          vertical-align: middle;
+        }
+        &.active .label {
+          max-width: none;
+        }
       }
       > li, > li > a {
         margin: 0;

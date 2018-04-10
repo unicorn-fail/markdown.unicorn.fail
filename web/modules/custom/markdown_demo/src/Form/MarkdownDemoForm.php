@@ -132,11 +132,11 @@ class MarkdownDemoForm extends FormBase {
       $i++;
       $id = Html::getUniqueId($formatted->getFormat());
 
-      $benchmark = $formatted->buildBenchmark();
+      $benchmark = $formatted->buildBenchmarkAverages();
 
       $tab = [
         '#type' => 'link',
-        '#title' => new FormattableMarkup('@label <small>@time</small>', [
+        '#title' => new FormattableMarkup('<span class="label">@label</span> @time', [
           '@label' => $formatted->getLabel(),
           '@time' => \Drupal::service('renderer')->renderPlain($benchmark),
         ]),

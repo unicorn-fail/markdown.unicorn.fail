@@ -80,15 +80,15 @@ class MarkdownDemoBenchmarks extends ControllerBase {
         ]]
       ];
 
-      $parsed_ms[] = array_map(function (/** @type \Drupal\markdown_demo\FormattedMarkdown $formatted */ $formatted) {
+      $parsed_ms[] = array_map(function (/** @type \Drupal\markdown_demo\BenchmarkedFormattedMarkdown $formatted */$formatted) {
         return $formatted->getMilliseconds('parsed', FALSE);
       }, $example->getFormatted());
 
-      $rendered_ms[] = array_map(function (/** @type \Drupal\markdown_demo\FormattedMarkdown $formatted */ $formatted) {
+      $rendered_ms[] = array_map(function (/** @type \Drupal\markdown_demo\BenchmarkedFormattedMarkdown $formatted */$formatted) {
         return $formatted->getMilliseconds('rendered', FALSE);
       }, $example->getFormatted());
 
-      $total_ms[] = $example_total_ms = array_map(function (/** @type \Drupal\markdown_demo\FormattedMarkdown $formatted */ $formatted) {
+      $total_ms[] = $example_total_ms = array_map(function (/** @type \Drupal\markdown_demo\BenchmarkedFormattedMarkdown $formatted */$formatted) {
         return $formatted->getMilliseconds('total', FALSE);
       }, $example->getFormatted());
 
@@ -108,7 +108,7 @@ class MarkdownDemoBenchmarks extends ControllerBase {
         if (!isset($formats[$format])) {
           $formats[$format] = $formatted->getLabel();
         }
-        $benchmark = $formatted->buildBenchmark('all');
+        $benchmark = $formatted->buildBenchmarkAverages('all');
         $benchmark['#attributes']['class'][] = $class;
         $row[] = ['data' => $benchmark];
       }
