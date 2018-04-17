@@ -36,7 +36,7 @@ class MarkdownDemo {
     ],
     'homebrew' => [
       'label' => 'Homebrew (README.md)',
-      'url' => 'https://github.com/Homebrew/homebrew-php/raw/master/README.md',
+      'url' => 'https://github.com/Homebrew/brew/raw/master/README.md',
     ],
     'jquery' => [
       'label' => 'jQuery (README.md)',
