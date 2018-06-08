@@ -108,7 +108,7 @@ class MarkdownDemoBenchmarks extends ControllerBase {
         if (!isset($formats[$format])) {
           $formats[$format] = $formatted->getLabel();
         }
-        $benchmark = $formatted->buildBenchmarkAverages('all');
+        $benchmark = $formatted->build('all');
         $benchmark['#attributes']['class'][] = $class;
         $row[] = ['data' => $benchmark];
       }

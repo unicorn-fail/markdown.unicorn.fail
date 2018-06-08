@@ -2,7 +2,6 @@
 
 namespace Drupal\markdown_demo;
 
-use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -72,53 +71,8 @@ class BenchmarkedFormattedMarkdown {
    * @return array
    *   A render array.
    */
-  public function buildBenchmarkAverages($type = 'total') {
-    if ($this->benchmarkAverages->hasBenchmarks()) {
-      $variables = [
-        '@average' => $this->benchmarkAverages->getIterationCount(),
-        '@parsed' => $this->benchmarkAverages->getAverage('parsed'),
-        '@rendered' => $this->benchmarkAverages->getAverage('rendered'),
-        '@total' => $this->benchmarkAverages->getAverage('total'),
-      ];
-      switch ($type) {
-        case 'parsed':
-          $label = new FormattableMarkup('<span class="parsed">~@parsed<em>ms</em></span>', $variables);
-          $title = $this->t('(@average𝒙) Parsed Time (rendered @renderedms, total @totalms)', $variables);
-          break;
-
-        case 'rendered':
-          $label = new FormattableMarkup('<span class="rendered">~@rendered<em>ms</em></span>', $variables);
-          $title = $this->t('(@average𝒙) Rendered Time (parsed @parsedms, total @totalms)', $variables);
-          break;
-
-        case 'all':
-          $label = new FormattableMarkup('<span class="parsed">~@parsed<em>ms</em></span> / <span class="rendered">~@rendered<em>ms</em></span> / <span class="total">~@total<em>ms</em></span>', $variables);
-          $title = $this->t('(@average𝒙) - Parsed / Rendered / Total', $variables);
-          break;
-
-        // Total.
-        default:
-          $label = new FormattableMarkup('<span class="total">~@total<em>ms</em></span>', $variables);
-          $title = $this->t('(@average𝒙) Total Time (parsed @parsedms, rendered @renderedms)', $variables);
-          break;
-      }
-    }
-    else {
-      $title = $this->t('This MarkdownParser plugin does not implement benchmark testing.');
-      $label = $this->t('N/A');
-    }
-
-    return [
-      '#type' => 'html_tag',
-      '#tag' => 'span',
-      '#attributes' => [
-        'class' => ['markdown-benchmark'],
-        'data-toggle' => 'tooltip',
-        'data-placement' => 'bottom',
-        'title' => $title,
-      ],
-      '#value' => $label,
-    ];
+  public function build($type = 'total') {
+    return $this->benchmarkAverages->build($type);
   }
 
   /**

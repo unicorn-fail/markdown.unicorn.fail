@@ -242,55 +242,94 @@ table.total-averages {
   }
 }
 
+.markdown-benchmark-average {
+  background: rgba(0,0,0,.4);
+  border-radius: 3px;
+  color: #fff;
+  display: inline-flex;
+  justify-content: space-evenly;
+  margin-right: 5px;
+  padding: 3px 5px;
+  text-align: center;
+
+  table.benchmarks td:not(:first-child) & {
+    min-width: 300px;
+  }
+
+  &, li {
+    list-style: none;
+    margin: 0;
+  }
+
+  li {
+    display: inline-block;
+    &::after {
+      content: '/';
+    }
+    &:last-child::after {
+      content: none;
+    }
+  }
+}
+
+
 .markdown-benchmark {
   background: rgba(0,0,0,.4);
   border-radius: 3px;
   color: #fff;
+  display: inline-block;
   line-height: 1;
   font-family: $font-family-monospace;
   font-size: .85em;
   font-weight: 600;
-  padding: 3px 5px;
+  margin: 0 5px;
+  min-width: 100px;
+  padding: 7px 10px;
+  text-align: center;
 
   table.benchmarks & {
     padding: 7px 15px;
   }
 
   table.benchmarks td:not(:first-child) & {
-    align-items: center;
-    display: inline-flex;
-    justify-content: space-evenly;
-    line-height: 0;
     min-width: 300px;
     padding: 15px 0;
   }
 
-  &.markdown-benchmark--slow {
-    background: $state-danger-text;
-  }
+  .markdown-benchmark-average & {
+    background: transparent;
+    border-radius: 0;
+    color: inherit;
+    padding: 0;
 
-  &.markdown-benchmark--fast {
-    background: $state-success-text;
-  }
-
-  &.markdown-benchmark--medium {
-    background: #d2c682;
-    color: $body-bg;
-  }
-
-  &.markdown-benchmark--average {
-    display: inline-block;
-    margin-right: 5px;
-    min-width: 100px;
-    text-align: center;
+    table.benchmarks td:not(:first-child) & {
+      min-width: 100px;
+      padding: 0;
+    }
   }
 
   em {
     font-size: .85em;
     font-style: normal;
-    margin-left: 2px;
-    opacity: .56;
+    margin: 0 2px;
+    opacity: .5;
   }
+}
+
+.markdown-benchmark-average--slow,
+.markdown-benchmark--slow {
+  background: $state-danger-text;
+}
+
+.markdown-benchmark-average--fast,
+.markdown-benchmark--fast {
+  background: $state-success-text;
+}
+
+.markdown-benchmark-average--medium,
+.markdown-benchmark--medium {
+  background: #d2c682;
+  color: $body-bg;
 }
 
 .alert.margin-bottom {
@@ -399,12 +438,19 @@ table.total-averages {
 
     .markdown-panes {
       display: flex;
+      height: calc(100% - 48px);
+      width: 100%;
+      .tab-pane.active {
+        display: flex;
+        justify-content: space-evenly;
+        height: 100%;
+        width: 100%;
+      }
     }
   }
 
   .markdown-html,
   .markdown-rendered {
-    float: left;
     height: 100%;
     overflow-y: scroll;
     padding-bottom: 100px;

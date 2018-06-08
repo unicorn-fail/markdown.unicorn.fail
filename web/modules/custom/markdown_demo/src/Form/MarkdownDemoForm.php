@@ -132,7 +132,7 @@ class MarkdownDemoForm extends FormBase {
       $i++;
       $id = Html::getUniqueId($formatted->getFormat());
 
-      $benchmark = $formatted->buildBenchmarkAverages();
+      $benchmark = $formatted->build();
 
       $tab = [
         '#type' => 'link',
